@@ -1,0 +1,267 @@
+/* 1. CSS Custom Properties (Theme Colors) */
+:root {
+  --brand-color: #2563eb;
+  --accent-color: #3b82f6;
+  --bg-surface: #f8fafc;
+  --card-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Base Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* 2. Overall Page Layout using CSS Grid */
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 70px 1fr;
+  grid-template-areas:
+    "header  header"
+    "sidebar main";
+  min-height: 100vh;
+}
+
+/* 3. Flexbox Layouts for Components */
+
+/* Header Flexbox */
+.header {
+  grid-area: header;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--brand-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Sidebar Flexbox */
+.sidebar {
+  grid-area: sidebar;
+  background-color: var(--card-bg);
+  border-right: 1px solid var(--border-color);
+  padding: 1.5rem 1rem;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background-color: var(--bg-surface);
+  color: var(--brand-color);
+  font-weight: 600;
+}
+
+/* Main Content Area */
+.main-content {
+  grid-area: main;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Card Grid Layout */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Card Styling & Internal Flexbox Layout */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  outline: none;
+  /* Micro-interaction transition setup */
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-header h3 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.badge {
+  background-color: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.amount {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: var(--brand-color);
+}
+
+.budget {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* 4. Card Micro-interactions (Hover & Keyboard Focus) */
+.card:hover,
+.card:focus {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--accent-color);
+  cursor: pointer;
+}
+
+/* 5. Responsive Design (Mobile Layout Breakpoint) */
+@media (max-width: 768px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main";
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+  }
+
+  .nav-menu {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .nav-item span:last-child {
+    display: none; /* Hide nav text on very small screens, keeping icons */
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Stretch Goal: Dark Theme (System Preference Override)
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Override CSS variables for dark mode */
+    --brand-color: #60a5fa;       /* Lighter blue for higher contrast on dark backgrounds */
+    --accent-color: #93c5fd;      /* Soft blue focus highlight */
+    --bg-surface: #0f172a;     /* Dark slate background */
+    --text-primary: #f8fafc;      /* High-contrast light text */
+    --text-secondary: #94a3b8;    /* Muted gray text */
+
+    /* Supporting UI Variables Overrides */
+    --card-bg: #1e293b;           /* Slightly lighter dark surface for card containers */
+    --border-color: #334155;      /* Subtle slate border */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  }
+}
+/* ==========================================================================
+   5. Card Micro-interactions
+   ========================================================================== */
+
+.card {
+  /* ...existing card styles... */
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  
+  /* Smooth transition setup lasting 200ms (<= 250ms requirement) */
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  
+  /* Enables keyboard focus capability if HTML has tabindex="0" */
+  outline: none;
+}
+
+/* Micro-interaction applying transform and box-shadow to both hover and focus states */
+.card:hover,
+.card:focus,
+.card:focus-within {
+  /* Subtle 4px lift effect */
+  transform: translateY(-4px); 
+  
+  /* Elevated drop shadow for depth */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Accent outline highlight for accessibility */
+  border-color: var(--accent-color);
+  cursor: pointer;
+}
